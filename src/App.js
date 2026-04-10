@@ -5,7 +5,7 @@ import {
   ArrowRight, Truck, Star, MapPin, Menu
 } from 'lucide-react';
 
-const LOGO_URL = "https://res.cloudinary.com/dda0r7rmy/image/upload/v1775516515/7D15BE0E-4C0E-4E20-9660-100C3699C0A0_qlfiu0.png";
+const LOGO_URL = "https://res.cloudinary.com/dda0r7rmy/image/upload/f_auto,q_auto/v1775516515/7D15BE0E-4C0E-4E20-9660-100C3699C0A0_qlfiu0.png";
 
 const PRODUCT_DATA = [
   { 
@@ -14,7 +14,7 @@ const PRODUCT_DATA = [
     price: 85, 
     oldPrice: 195,
     category: "სამზარეულო", 
-    image: "https://res.cloudinary.com/dda0r7rmy/image/upload/v1775516517/IMG_0273_lihjbt.jpg",
+    image: "https://res.cloudinary.com/dda0r7rmy/image/upload/f_auto,q_auto/v1775516517/IMG_0273_lihjbt.jpg",
     description: "მაღალი ხარისხის სტაციონარული ბლენდერი.",
     specs: ["მძლავრი ძრავა", "თერმომდგრადი კონტეინერი"]
   },
@@ -24,7 +24,7 @@ const PRODUCT_DATA = [
     price: 65, 
     oldPrice: 99,
     category: "თავის მოვლა", 
-    image: "https://res.cloudinary.com/dda0r7rmy/image/upload/v1775516517/IMG_0276_ekjiyv.jpg",
+    image: "https://res.cloudinary.com/dda0r7rmy/image/upload/f_auto,q_auto/v1775516517/IMG_0276_ekjiyv.jpg",
     description: "მრავალფუნქციური თმის საშრობი სავარცხელი.",
     specs: ["სიმძლავრე: 1200W", "ფუნქციები: გაშრობა, გასწორება"]
   },
@@ -34,7 +34,7 @@ const PRODUCT_DATA = [
     price: 219, 
     oldPrice: 309,
     category: "სამზარეულო", 
-    image: "https://res.cloudinary.com/dda0r7rmy/image/upload/v1775516517/IMG_0271_x4qjnn.jpg",
+    image: "https://res.cloudinary.com/dda0r7rmy/image/upload/f_auto,q_auto/v1775516517/IMG_0271_x4qjnn.jpg",
     description: "მძლავრი ხორცსაკეპი მანქანა.",
     specs: ["რევერსის ფუნქცია", "უჟანგავი ფოლადის პირები"]
   },
@@ -44,7 +44,7 @@ const PRODUCT_DATA = [
     price: 199, 
     oldPrice: 299,
     category: "დასუფთავება", 
-    image: "https://res.cloudinary.com/dda0r7rmy/image/upload/v1775516517/IMG_0266_urwkjw.jpg",
+    image: "https://res.cloudinary.com/dda0r7rmy/image/upload/f_auto,q_auto/v1775516517/IMG_0266_urwkjw.jpg",
     description: "ვერტიკალური მტვერსასრუტი.",
     specs: ["HEPA ფილტრი", "მსუბუქი დიზაინი"]
   },
@@ -54,7 +54,7 @@ const PRODUCT_DATA = [
     price: 65, 
     oldPrice: 189,
     category: "თავის მოვლა", 
-    image: "https://res.cloudinary.com/dda0r7rmy/image/upload/v1775516516/IMG_0265_ffdqql.jpg",
+    image: "https://res.cloudinary.com/dda0r7rmy/image/upload/f_auto,q_auto/v1775516516/IMG_0265_ffdqql.jpg",
     description: "პროფესიონალური თმის საშრობი.",
     specs: ["ცივი ჰაერის ნაკადი", "ტემპერატურის კონტროლი"]
   },
@@ -64,7 +64,7 @@ const PRODUCT_DATA = [
     price: 99, 
     oldPrice: 159,
     category: "სამზარეულო", 
-    image: "https://res.cloudinary.com/dda0r7rmy/image/upload/v1775516516/IMG_0179_rt20l9.jpg",
+    image: "https://res.cloudinary.com/dda0r7rmy/image/upload/f_auto,q_auto/v1775516516/IMG_0179_rt20l9.jpg",
     description: "სენდვიჩის აპარატი.",
     specs: ["მარტივი წმენდა", "კომპაქტური ზომა"]
   },
@@ -74,7 +74,7 @@ const PRODUCT_DATA = [
     price: 230, 
     oldPrice: 379,
     category: "სამზარეულო", 
-    image: "https://res.cloudinary.com/dda0r7rmy/image/upload/v1775516516/IMG_0190_klj2xq.jpg",
+    image: "https://res.cloudinary.com/dda0r7rmy/image/upload/f_auto,q_auto/v1775516516/IMG_0190_klj2xq.jpg",
     description: "ამზადებს კერძებს ზეთის გარეშე.",
     specs: ["ციფრული ეკრანი", "ტაიმერი"]
   },
@@ -84,7 +84,7 @@ const PRODUCT_DATA = [
     price: 429, 
     oldPrice: 700,
     category: "სამზარეულო", 
-    image: "https://res.cloudinary.com/dda0r7rmy/image/upload/v1775516516/IMG_0264_cx8hhk.jpg",
+    image: "https://res.cloudinary.com/dda0r7rmy/image/upload/f_auto,q_auto/v1775516516/IMG_0264_cx8hhk.jpg",
     description: "ჭურჭლის ნაკრები გრანიტის საფარით.",
     specs: ["გრანიტის ზედაპირი", "გამძლე მასალა"]
   },
@@ -94,7 +94,7 @@ const PRODUCT_DATA = [
     price: 199, 
     oldPrice: 329,
     category: "სამზარეულო", 
-    image: "https://res.cloudinary.com/dda0r7rmy/image/upload/v1775516516/IMG_0176_oqbli6.jpg",
+    image: "https://res.cloudinary.com/dda0r7rmy/image/upload/f_auto,q_auto/v1775516516/IMG_0176_oqbli6.jpg",
     description: "ძლიერი ბლენდერი ყოველდღიური გამოყენებისთვის.",
     specs: ["ძლიერი ძრავა", "მაღალი წარმადობა"]
   }
@@ -331,7 +331,7 @@ export default function App() {
       boxShadow: isHovered ? '0 10px 20px -5px rgba(0,0,0,0.3)' : 'none',
     }),
     cardImgContainer: {
-      backgroundColor: '#153450', // Matching card bg
+      backgroundColor: '#153450',
       aspectRatio: '1/1',
       overflow: 'hidden',
       position: 'relative',
@@ -339,7 +339,7 @@ export default function App() {
     cardImg: {
       width: '100%',
       height: '100%',
-      objectFit: 'cover', // Fills container
+      objectFit: 'cover',
       transition: 'transform 0.5s ease',
     },
     cardContent: {
@@ -470,7 +470,7 @@ export default function App() {
             onMouseEnter={() => setHoveredLogo(true)}
             onMouseLeave={() => setHoveredLogo(false)}
           >
-            <img src={LOGO_URL} alt="Logo" style={styles.logoImg} />
+            <img src={LOGO_URL} alt="Logo" style={styles.logoImg} loading="lazy" />
             <span style={styles.logoText(hoveredLogo)}>ELECTROPLACE</span>
           </div>
 
@@ -524,7 +524,12 @@ export default function App() {
                 onMouseLeave={() => setHoveredCard(null)}
               >
                 <div style={styles.cardImgContainer}>
-                  <img src={product.image} alt={product.name} style={styles.cardImg} />
+                  <img 
+                    src={product.image} 
+                    alt={product.name} 
+                    style={styles.cardImg} 
+                    loading="lazy" 
+                  />
                 </div>
                 <div style={styles.cardContent}>
                   <h3 style={styles.cardName}>{product.name}</h3>
@@ -568,7 +573,7 @@ export default function App() {
               ) : (
                 cart.map(item => (
                   <div key={item.id} style={styles.cartItem}>
-                    <img src={item.image} alt={item.name} style={styles.cartItemImg} />
+                    <img src={item.image} alt={item.name} style={styles.cartItemImg} loading="lazy" />
                     <div style={{flex: 1}}>
                       <div style={{fontSize: '14px', fontWeight: '600', marginBottom: '4px', color: 'white'}}>{item.name}</div>
                       <div style={{color: '#2F80ED', fontWeight: '800', fontSize: '1.1rem'}}>₾{item.price}</div>
