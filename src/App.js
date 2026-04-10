@@ -1,20 +1,20 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { 
   ShoppingCart, Search, X, Plus, Minus, Trash2, 
-  CheckCircle, Package, ChevronDown, ChevronUp, 
-  ArrowRight, Truck, Star, MapPin, Menu
+  CheckCircle, Package, Star, Menu, Settings, 
+  PlusCircle, LayoutDashboard, LogOut, Save, Image as ImageIcon, List
 } from 'lucide-react';
 
-const LOGO_URL = "https://res.cloudinary.com/dda0r7rmy/image/upload/f_auto,q_auto/v1775516515/7D15BE0E-4C0E-4E20-9660-100C3699C0A0_qlfiu0.png";
+const LOGO_URL = "https://res.cloudinary.com/dda0r7rmy/image/upload/v1775516515/7D15BE0E-4C0E-4E20-9660-100C3699C0A0_qlfiu0.png";
 
-const PRODUCT_DATA = [
+const INITIAL_PRODUCTS = [
   { 
     id: 1, 
     name: "Sokany - ს ბლენდერი", 
     price: 85, 
     oldPrice: 195,
     category: "სამზარეულო", 
-    image: "https://res.cloudinary.com/dda0r7rmy/image/upload/f_auto,q_auto/v1775516517/IMG_0273_lihjbt.jpg",
+    image: "https://res.cloudinary.com/dda0r7rmy/image/upload/v1775516517/IMG_0273_lihjbt.jpg",
     description: "მაღალი ხარისხის სტაციონარული ბლენდერი.",
     specs: ["მძლავრი ძრავა", "თერმომდგრადი კონტეინერი"]
   },
@@ -24,7 +24,7 @@ const PRODUCT_DATA = [
     price: 65, 
     oldPrice: 99,
     category: "თავის მოვლა", 
-    image: "https://res.cloudinary.com/dda0r7rmy/image/upload/f_auto,q_auto/v1775516517/IMG_0276_ekjiyv.jpg",
+    image: "https://res.cloudinary.com/dda0r7rmy/image/upload/v1775516517/IMG_0276_ekjiyv.jpg",
     description: "მრავალფუნქციური თმის საშრობი სავარცხელი.",
     specs: ["სიმძლავრე: 1200W", "ფუნქციები: გაშრობა, გასწორება"]
   },
@@ -34,7 +34,7 @@ const PRODUCT_DATA = [
     price: 219, 
     oldPrice: 309,
     category: "სამზარეულო", 
-    image: "https://res.cloudinary.com/dda0r7rmy/image/upload/f_auto,q_auto/v1775516517/IMG_0271_x4qjnn.jpg",
+    image: "https://res.cloudinary.com/dda0r7rmy/image/upload/v1775516517/IMG_0271_x4qjnn.jpg",
     description: "მძლავრი ხორცსაკეპი მანქანა.",
     specs: ["რევერსის ფუნქცია", "უჟანგავი ფოლადის პირები"]
   },
@@ -44,7 +44,7 @@ const PRODUCT_DATA = [
     price: 199, 
     oldPrice: 299,
     category: "დასუფთავება", 
-    image: "https://res.cloudinary.com/dda0r7rmy/image/upload/f_auto,q_auto/v1775516517/IMG_0266_urwkjw.jpg",
+    image: "https://res.cloudinary.com/dda0r7rmy/image/upload/v1775516517/IMG_0266_urwkjw.jpg",
     description: "ვერტიკალური მტვერსასრუტი.",
     specs: ["HEPA ფილტრი", "მსუბუქი დიზაინი"]
   },
@@ -54,7 +54,7 @@ const PRODUCT_DATA = [
     price: 65, 
     oldPrice: 189,
     category: "თავის მოვლა", 
-    image: "https://res.cloudinary.com/dda0r7rmy/image/upload/f_auto,q_auto/v1775516516/IMG_0265_ffdqql.jpg",
+    image: "https://res.cloudinary.com/dda0r7rmy/image/upload/v1775516516/IMG_0265_ffdqql.jpg",
     description: "პროფესიონალური თმის საშრობი.",
     specs: ["ცივი ჰაერის ნაკადი", "ტემპერატურის კონტროლი"]
   },
@@ -64,7 +64,7 @@ const PRODUCT_DATA = [
     price: 99, 
     oldPrice: 159,
     category: "სამზარეულო", 
-    image: "https://res.cloudinary.com/dda0r7rmy/image/upload/f_auto,q_auto/v1775516516/IMG_0179_rt20l9.jpg",
+    image: "https://res.cloudinary.com/dda0r7rmy/image/upload/v1775516516/IMG_0179_rt20l9.jpg",
     description: "სენდვიჩის აპარატი.",
     specs: ["მარტივი წმენდა", "კომპაქტური ზომა"]
   },
@@ -74,7 +74,7 @@ const PRODUCT_DATA = [
     price: 230, 
     oldPrice: 379,
     category: "სამზარეულო", 
-    image: "https://res.cloudinary.com/dda0r7rmy/image/upload/f_auto,q_auto/v1775516516/IMG_0190_klj2xq.jpg",
+    image: "https://res.cloudinary.com/dda0r7rmy/image/upload/v1775516516/IMG_0190_klj2xq.jpg",
     description: "ამზადებს კერძებს ზეთის გარეშე.",
     specs: ["ციფრული ეკრანი", "ტაიმერი"]
   },
@@ -84,7 +84,7 @@ const PRODUCT_DATA = [
     price: 429, 
     oldPrice: 700,
     category: "სამზარეულო", 
-    image: "https://res.cloudinary.com/dda0r7rmy/image/upload/f_auto,q_auto/v1775516516/IMG_0264_cx8hhk.jpg",
+    image: "https://res.cloudinary.com/dda0r7rmy/image/upload/v1775516516/IMG_0264_cx8hhk.jpg",
     description: "ჭურჭლის ნაკრები გრანიტის საფარით.",
     specs: ["გრანიტის ზედაპირი", "გამძლე მასალა"]
   },
@@ -94,16 +94,16 @@ const PRODUCT_DATA = [
     price: 199, 
     oldPrice: 329,
     category: "სამზარეულო", 
-    image: "https://res.cloudinary.com/dda0r7rmy/image/upload/f_auto,q_auto/v1775516516/IMG_0176_oqbli6.jpg",
+    image: "https://res.cloudinary.com/dda0r7rmy/image/upload/v1775516516/IMG_0176_oqbli6.jpg",
     description: "ძლიერი ბლენდერი ყოველდღიური გამოყენებისთვის.",
     specs: ["ძლიერი ძრავა", "მაღალი წარმადობა"]
   }
 ];
 
-const CATEGORIES = ["ყველა", "სამზარეულო", "დასუფთავება", "თავის მოვლა"];
-
 export default function App() {
   const [view, setView] = useState('home'); 
+  const [products, setProducts] = useState(INITIAL_PRODUCTS);
+  const [categories, setCategories] = useState(["სამზარეულო", "დასუფთავება", "თავის მოვლა"]);
   const [cart, setCart] = useState([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
@@ -113,6 +113,50 @@ export default function App() {
   const [deliveryAddress, setDeliveryAddress] = useState('');
   const [hoveredLogo, setHoveredLogo] = useState(false);
   const [hoveredCard, setHoveredCard] = useState(null);
+
+  // Hidden Admin Trigger State
+  const [clickCount, setClickCount] = useState(0);
+  const [showPasswordModal, setShowPasswordModal] = useState(false);
+  const [passwordInput, setPasswordInput] = useState("");
+  const [passwordError, setPasswordError] = useState(false);
+  const [newCategoryName, setNewCategoryName] = useState("");
+
+  const [newProduct, setNewProduct] = useState({
+    name: '', price: '', oldPrice: '', category: categories[0] || 'სამზარეულო', image: '', description: ''
+  });
+
+  const ADMIN_PASSWORD = "Vepxo2000$";
+
+  // Hidden Trigger Logic for Footer
+  const handleFooterClick = () => {
+    setClickCount(prev => {
+      const nextCount = prev + 1;
+      if (nextCount >= 5) {
+        setShowPasswordModal(true);
+        return 0;
+      }
+      return nextCount;
+    });
+
+    // Reset click count after 2 seconds to prevent accidental triggers over long periods
+    const timer = setTimeout(() => {
+      setClickCount(0);
+    }, 2000);
+    return () => clearTimeout(timer);
+  };
+
+  const handlePasswordSubmit = (e) => {
+    e.preventDefault();
+    if (passwordInput === ADMIN_PASSWORD) {
+      setView('admin');
+      setShowPasswordModal(false);
+      setPasswordInput("");
+      setPasswordError(false);
+    } else {
+      setPasswordError(true);
+      setTimeout(() => setPasswordError(false), 2000);
+    }
+  };
 
   const addToCart = (product) => {
     setCart(prev => {
@@ -133,12 +177,33 @@ export default function App() {
   const cartItemsCount = cart.reduce((sum, item) => sum + item.quantity, 0);
 
   const filteredProducts = useMemo(() => {
-    return PRODUCT_DATA.filter(p => {
+    return products.filter(p => {
       const matchesCategory = activeCategory === "ყველა" || p.category === activeCategory;
       const matchesSearch = p.name.toLowerCase().includes(appliedSearch.toLowerCase());
       return matchesCategory && matchesSearch;
     });
-  }, [appliedSearch, activeCategory]);
+  }, [appliedSearch, activeCategory, products]);
+
+  // Admin Functions
+  const handleAddProduct = (e) => {
+    e.preventDefault();
+    const id = products.length > 0 ? Math.max(...products.map(p => p.id)) + 1 : 1;
+    setProducts([...products, { ...newProduct, id: id, price: Number(newProduct.price), oldPrice: Number(newProduct.oldPrice) || 0 }]);
+    setNewProduct({ name: '', price: '', oldPrice: '', category: categories[0] || '', image: '', description: '' });
+  };
+
+  const handleAddCategory = (e) => {
+    e.preventDefault();
+    const trimmed = newCategoryName.trim();
+    if (trimmed && !categories.includes(trimmed)) {
+      setCategories([...categories, trimmed]);
+      setNewCategoryName("");
+    }
+  };
+
+  const deleteProduct = (id) => {
+    setProducts(products.filter(p => p.id !== id));
+  };
 
   const handleCheckout = async (e) => {
     e.preventDefault();
@@ -176,6 +241,8 @@ export default function App() {
       fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
       margin: 0,
       padding: 0,
+      display: 'flex',
+      flexDirection: 'column'
     },
     header: {
       position: 'sticky',
@@ -240,6 +307,11 @@ export default function App() {
       transform: 'translateY(-50%)',
       color: '#9CA3AF',
     },
+    actionButtons: {
+      display: 'flex',
+      alignItems: 'center',
+      gap: '15px',
+    },
     cartButton: {
       position: 'relative',
       background: 'none',
@@ -252,10 +324,23 @@ export default function App() {
       alignItems: 'center',
       justifyContent: 'center',
     },
+    adminButton: {
+      background: '#1E3E62',
+      border: 'none',
+      cursor: 'pointer',
+      color: 'white',
+      padding: '8px 12px',
+      borderRadius: '10px',
+      display: 'flex',
+      alignItems: 'center',
+      gap: '8px',
+      fontSize: '13px',
+      fontWeight: '600',
+    },
     badge: {
       position: 'absolute',
-      top: '2px',
-      right: '2px',
+      top: '-5px',
+      right: '-5px',
       backgroundColor: '#2F80ED',
       color: 'white',
       fontSize: '10px',
@@ -271,22 +356,6 @@ export default function App() {
     hero: {
       textAlign: 'center',
       padding: '60px 20px 40px',
-    },
-    heroTitle: {
-      fontSize: 'clamp(2rem, 5vw, 3.5rem)',
-      fontWeight: '900',
-      color: 'white',
-      margin: 0,
-      lineHeight: '1.1',
-      letterSpacing: '-1px',
-    },
-    heroSub: {
-      color: '#2F80ED',
-    },
-    heroDesc: {
-      color: '#9CA3AF',
-      marginTop: '15px',
-      fontSize: '1.1rem',
     },
     categoryList: {
       display: 'flex',
@@ -330,137 +399,105 @@ export default function App() {
       transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
       boxShadow: isHovered ? '0 10px 20px -5px rgba(0,0,0,0.3)' : 'none',
     }),
-    cardImgContainer: {
-      backgroundColor: '#153450',
-      aspectRatio: '1/1',
-      overflow: 'hidden',
-      position: 'relative',
+    adminPanel: {
+      maxWidth: '1100px',
+      margin: '40px auto',
+      padding: '0 20px 100px',
     },
-    cardImg: {
-      width: '100%',
-      height: '100%',
-      objectFit: 'cover',
-      transition: 'transform 0.5s ease',
+    adminGrid: {
+        display: 'grid',
+        gridTemplateColumns: '1fr 1fr',
+        gap: '30px',
     },
-    cardContent: {
-      padding: '18px',
-      flex: 1,
-      display: 'flex',
-      flexDirection: 'column',
-      gap: '12px',
+    formGroup: {
+        backgroundColor: '#153450',
+        padding: '24px',
+        borderRadius: '20px',
+        border: '1px solid #1E3E62',
     },
-    cardName: {
-      fontSize: '15px',
-      fontWeight: '600',
-      color: 'white',
-      margin: 0,
-      lineHeight: '1.4',
-      height: '42px',
-      display: '-webkit-box',
-      WebkitLineClamp: 2,
-      WebkitBoxOrient: 'vertical',
-      overflow: 'hidden',
+    input: {
+        width: '100%',
+        backgroundColor: '#0A1D2E',
+        border: '1px solid #1E3E62',
+        borderRadius: '10px',
+        padding: '12px',
+        color: 'white',
+        marginBottom: '15px',
+        fontSize: '14px',
+        boxSizing: 'border-box',
+        outline: 'none',
     },
-    priceContainer: {
-      display: 'flex',
-      alignItems: 'baseline',
-      gap: '8px',
+    adminProductItem: {
+        display: 'flex',
+        alignItems: 'center',
+        gap: '15px',
+        backgroundColor: '#153450',
+        padding: '12px',
+        borderRadius: '12px',
+        marginBottom: '10px',
+        border: '1px solid #1E3E62',
     },
-    priceTag: {
-      fontSize: '22px',
-      fontWeight: '800',
-      color: '#2F80ED',
-    },
-    oldPrice: {
-      fontSize: '13px',
-      color: '#6B7280',
-      textDecoration: 'line-through',
-    },
-    buyBtn: {
-      width: '100%',
-      backgroundColor: '#2F80ED',
-      color: 'white',
-      border: 'none',
-      borderRadius: '10px',
-      padding: '12px',
-      fontWeight: '700',
-      cursor: 'pointer',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      gap: '8px',
-      transition: 'background 0.2s ease',
-    },
-    overlay: {
-      position: 'fixed',
-      top: 0,
-      left: 0,
-      right: 0,
-      bottom: 0,
-      backgroundColor: 'rgba(0,0,0,0.7)',
-      backdropFilter: 'blur(4px)',
-      zIndex: 200,
-    },
-    sidebar: {
-      position: 'fixed',
-      top: 0,
-      right: 0,
-      height: '100%',
-      width: '100%',
-      maxWidth: '420px',
-      backgroundColor: '#0F2A43',
-      zIndex: 201,
-      display: 'flex',
-      flexDirection: 'column',
-      boxShadow: '-10px 0 50px rgba(0,0,0,0.5)',
-    },
-    sidebarHeader: {
-      padding: '24px',
-      borderBottom: '1px solid #1E3E62',
-      display: 'flex',
-      justifyContent: 'space-between',
-      alignItems: 'center',
-    },
-    cartList: {
-      padding: '20px',
-      flex: 1,
-      overflowY: 'auto',
-    },
-    cartItem: {
-      display: 'flex',
-      gap: '16px',
-      backgroundColor: '#153450',
-      padding: '12px',
-      borderRadius: '12px',
-      marginBottom: '16px',
-      border: '1px solid #1E3E62',
-    },
-    cartItemImg: {
-      width: '80px',
-      height: '80px',
-      borderRadius: '8px',
-      objectFit: 'cover',
-    },
-    checkoutFooter: {
-      padding: '24px',
+    footer: {
+      marginTop: 'auto',
+      padding: '30px 20px',
       backgroundColor: '#0A1D2E',
       borderTop: '1px solid #1E3E62',
+      textAlign: 'center',
     },
-    inputField: {
-      width: '100%',
-      backgroundColor: '#0F2A43',
-      border: '1px solid #1E3E62',
-      borderRadius: '10px',
-      padding: '14px',
-      color: 'white',
-      marginBottom: '12px',
+    footerText: {
+      color: '#6B7280',
       fontSize: '14px',
-      boxSizing: 'border-box',
+      cursor: 'pointer',
+      userSelect: 'none',
+      display: 'inline-block', // makes clicking area exactly the text width
+    },
+    modalOverlay: {
+      position: 'fixed',
+      inset: 0,
+      backgroundColor: 'rgba(0,0,0,0.85)',
+      backdropFilter: 'blur(5px)',
+      zIndex: 1000,
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center'
+    },
+    modalContent: {
+      backgroundColor: '#153450',
+      padding: '30px',
+      borderRadius: '20px',
+      width: '90%',
+      maxWidth: '400px',
+      border: '1px solid #1E3E62',
+      boxShadow: '0 20px 50px rgba(0,0,0,0.5)'
     }
   };
 
   return (
     <div style={styles.container}>
+      {/* Password Modal */}
+      {showPasswordModal && (
+        <div style={styles.modalOverlay}>
+          <div style={styles.modalContent}>
+            <div style={{display:'flex', justifyContent:'space-between', marginBottom:'20px'}}>
+               <h3 style={{margin:0, color: 'white', fontSize: '18px'}}>წვდომის ავტორიზაცია</h3>
+               <X style={{cursor:'pointer', color: '#9CA3AF'}} onClick={()=>setShowPasswordModal(false)}/>
+            </div>
+            <form onSubmit={handlePasswordSubmit}>
+              <input 
+                type="password" 
+                placeholder="შეიყვანეთ პაროლი..." 
+                style={{...styles.input, borderColor: passwordError ? '#EF4444' : '#1E3E62'}}
+                value={passwordInput}
+                onChange={(e)=>setPasswordInput(e.target.value)}
+                autoFocus
+              />
+              {passwordError && <p style={{color:'#EF4444', fontSize:'12px', marginTop:'-10px', marginBottom:'10px'}}>პაროლი არასწორია!</p>}
+              <button type="submit" style={{width:'100%', padding:'12px', background:'#2F80ED', border:'none', borderRadius:'8px', color:'white', fontWeight:'bold', cursor:'pointer'}}>შესვლა</button>
+            </form>
+          </div>
+        </div>
+      )}
+
       {/* Header */}
       <header style={styles.header}>
         <div style={styles.nav}>
@@ -470,7 +507,7 @@ export default function App() {
             onMouseEnter={() => setHoveredLogo(true)}
             onMouseLeave={() => setHoveredLogo(false)}
           >
-            <img src={LOGO_URL} alt="Logo" style={styles.logoImg} loading="lazy" />
+            <img src={LOGO_URL} alt="Logo" style={styles.logoImg} />
             <span style={styles.logoText(hoveredLogo)}>ELECTROPLACE</span>
           </div>
 
@@ -486,25 +523,33 @@ export default function App() {
             />
           </div>
 
-          <button onClick={() => setIsCartOpen(true)} style={styles.cartButton}>
-            <ShoppingCart size={24} />
-            {cartItemsCount > 0 && <span style={styles.badge}>{cartItemsCount}</span>}
-          </button>
+          <div style={styles.actionButtons}>
+            <button onClick={() => setIsCartOpen(true)} style={styles.cartButton}>
+                <ShoppingCart size={24} />
+                {cartItemsCount > 0 && <span style={styles.badge}>{cartItemsCount}</span>}
+            </button>
+          </div>
         </div>
       </header>
 
       {view === 'home' && (
         <main>
           <section style={styles.hero}>
-            <h1 style={styles.heroTitle}>
+            <h1 style={{fontSize: 'clamp(2rem, 5vw, 3.5rem)', fontWeight: '900', color: 'white', margin: 0, lineHeight: '1.1', letterSpacing: '-1px'}}>
               საოჯახო ტექნიკა <br/>
-              <span style={styles.heroSub}>საუკეთესო ფასად</span>
+              <span style={{color: '#2F80ED'}}>საუკეთესო ფასად</span>
             </h1>
-            <p style={styles.heroDesc}>სწრაფი მიწოდება მთელ საქართველოში. ხარისხი და გარანტია.</p>
+            <p style={{color: '#9CA3AF', marginTop: '15px', fontSize: '1.1rem'}}>სწრაფი მიწოდება მთელ საქართველოში. ხარისხი და გარანტია.</p>
           </section>
 
           <div style={styles.categoryList}>
-            {CATEGORIES.map(cat => (
+            <button 
+              onClick={() => setActiveCategory("ყველა")}
+              style={styles.catBtn(activeCategory === "ყველა")}
+            >
+              ყველა
+            </button>
+            {categories.map(cat => (
               <button 
                 key={cat} 
                 onClick={() => setActiveCategory(cat)}
@@ -523,21 +568,16 @@ export default function App() {
                 onMouseEnter={() => setHoveredCard(product.id)}
                 onMouseLeave={() => setHoveredCard(null)}
               >
-                <div style={styles.cardImgContainer}>
-                  <img 
-                    src={product.image} 
-                    alt={product.name} 
-                    style={styles.cardImg} 
-                    loading="lazy" 
-                  />
+                <div style={{backgroundColor: '#153450', aspectRatio: '1/1', overflow: 'hidden', position: 'relative'}}>
+                  <img src={product.image} alt={product.name} style={{width: '100%', height: '100%', objectFit: 'cover'}} />
                 </div>
-                <div style={styles.cardContent}>
-                  <h3 style={styles.cardName}>{product.name}</h3>
-                  <div style={styles.priceContainer}>
-                    {product.oldPrice && <span style={styles.oldPrice}>₾{product.oldPrice}</span>}
-                    <span style={styles.priceTag}>₾{product.price}</span>
+                <div style={{padding: '18px', flex: 1, display: 'flex', flexDirection: 'column', gap: '12px'}}>
+                  <h3 style={{fontSize: '15px', fontWeight: '600', color: 'white', margin: 0, height: '42px', overflow: 'hidden'}}>{product.name}</h3>
+                  <div style={{display: 'flex', alignItems: 'baseline', gap: '8px'}}>
+                    {product.oldPrice && <span style={{fontSize: '13px', color: '#6B7280', textDecoration: 'line-through'}}>₾{product.oldPrice}</span>}
+                    <span style={{fontSize: '22px', fontWeight: '800', color: '#2F80ED'}}>₾{product.price}</span>
                   </div>
-                  <button onClick={(e) => { e.stopPropagation(); addToCart(product); }} style={styles.buyBtn}>
+                  <button onClick={(e) => { e.stopPropagation(); addToCart(product); }} style={{width: '100%', backgroundColor: '#2F80ED', color: 'white', border: 'none', borderRadius: '10px', padding: '12px', fontWeight: '700', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px'}}>
                     <Plus size={18} /> კალათაში
                   </button>
                 </div>
@@ -547,121 +587,196 @@ export default function App() {
         </main>
       )}
 
+      {view === 'admin' && (
+        <div style={styles.adminPanel}>
+            <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '30px'}}>
+                <h1 style={{fontSize: '28px', fontWeight: '900', color: 'white', display: 'flex', alignItems: 'center', gap: '15px'}}>
+                    <LayoutDashboard size={32} color="#2F80ED" /> სამართავი პანელი
+                </h1>
+                <button onClick={() => setView('home')} style={{...styles.adminButton, background: '#EF4444'}}>
+                    <LogOut size={18} /> გასვლა
+                </button>
+            </div>
+
+            <div style={styles.adminGrid}>
+                {/* Left Side: Forms */}
+                <div style={{display: 'flex', flexDirection: 'column', gap: '20px'}}>
+                    {/* Add Category Form */}
+                    <div style={styles.formGroup}>
+                        <h2 style={{fontSize: '18px', marginBottom: '20px', color: '#2F80ED', display: 'flex', alignItems: 'center', gap: '10px'}}>
+                            <List size={20} /> კატეგორიის დამატება
+                        </h2>
+                        <form onSubmit={handleAddCategory} style={{display: 'flex', gap: '10px'}}>
+                            <input 
+                                placeholder="მაგ: წვრილი ტექნიკა" 
+                                style={{...styles.input, marginBottom: 0}}
+                                value={newCategoryName}
+                                onChange={(e) => setNewCategoryName(e.target.value)}
+                                required
+                            />
+                            <button type="submit" style={{...styles.adminButton, background: '#2F80ED', padding: '0 20px', justifyContent: 'center'}}>
+                                <Plus size={20} />
+                            </button>
+                        </form>
+                    </div>
+
+                    {/* Add Product Form */}
+                    <div style={styles.formGroup}>
+                        <h2 style={{fontSize: '18px', marginBottom: '20px', color: '#2F80ED', display: 'flex', alignItems: 'center', gap: '10px'}}>
+                            <PlusCircle size={20} /> პროდუქტის დამატება
+                        </h2>
+                        <form onSubmit={handleAddProduct}>
+                            <input 
+                                placeholder="პროდუქტის დასახელება" 
+                                style={styles.input}
+                                value={newProduct.name}
+                                onChange={(e) => setNewProduct({...newProduct, name: e.target.value})}
+                                required
+                            />
+                            <div style={{display: 'flex', gap: '10px'}}>
+                                <input 
+                                    type="number" 
+                                    placeholder="ფასი" 
+                                    style={styles.input}
+                                    value={newProduct.price}
+                                    onChange={(e) => setNewProduct({...newProduct, price: e.target.value})}
+                                    required
+                                />
+                                <input 
+                                    type="number" 
+                                    placeholder="ძველი ფასი" 
+                                    style={styles.input}
+                                    value={newProduct.oldPrice}
+                                    onChange={(e) => setNewProduct({...newProduct, oldPrice: e.target.value})}
+                                />
+                            </div>
+                            <select 
+                                style={styles.input}
+                                value={newProduct.category}
+                                onChange={(e) => setNewProduct({...newProduct, category: e.target.value})}
+                                required
+                            >
+                                <option value="" disabled>აირჩიეთ კატეგორია</option>
+                                {categories.map(c => <option key={c} value={c}>{c}</option>)}
+                            </select>
+                            <input 
+                                placeholder="სურათის URL" 
+                                style={styles.input}
+                                value={newProduct.image}
+                                onChange={(e) => setNewProduct({...newProduct, image: e.target.value})}
+                                required
+                            />
+                            <textarea 
+                                placeholder="აღწერა" 
+                                style={{...styles.input, height: '80px', resize: 'none'}}
+                                value={newProduct.description}
+                                onChange={(e) => setNewProduct({...newProduct, description: e.target.value})}
+                            />
+                            <button type="submit" style={{...styles.adminButton, width: '100%', justifyContent: 'center', background: '#2F80ED', padding: '14px'}}>
+                                <Save size={20} /> შენახვა
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                {/* Right Side: Product List */}
+                <div style={{...styles.formGroup, maxHeight: '700px', overflowY: 'auto'}}>
+                    <h2 style={{fontSize: '18px', marginBottom: '20px', color: '#9CA3AF'}}>არსებული პროდუქტები ({products.length})</h2>
+                    {products.map(p => (
+                        <div key={p.id} style={styles.adminProductItem}>
+                            <img src={p.image} style={{width: '50px', height: '50px', borderRadius: '8px', objectFit: 'cover'}} />
+                            <div style={{flex: 1}}>
+                                <div style={{fontSize: '14px', fontWeight: '600', color: 'white'}}>{p.name}</div>
+                                <div style={{fontSize: '12px', color: '#2F80ED'}}>₾{p.price}</div>
+                            </div>
+                            <button onClick={() => deleteProduct(p.id)} style={{background: 'none', border: 'none', color: '#EF4444', cursor: 'pointer', padding: '5px'}}>
+                                <Trash2 size={18} />
+                            </button>
+                        </div>
+                    ))}
+                </div>
+            </div>
+        </div>
+      )}
+
       {/* Cart Sidebar */}
       {isCartOpen && (
         <>
-          <div style={styles.overlay} onClick={() => setIsCartOpen(false)} />
-          <div style={styles.sidebar}>
-            <div style={styles.sidebarHeader}>
-              <h2 style={{margin: 0, display: 'flex', alignItems: 'center', gap: '12px', fontSize: '1.4rem', fontWeight: '800'}}>
+          <div style={{position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(0,0,0,0.7)', backdropFilter: 'blur(4px)', zIndex: 200}} onClick={() => setIsCartOpen(false)} />
+          <div style={{position: 'fixed', top: 0, right: 0, height: '100%', width: '100%', maxWidth: '420px', backgroundColor: '#0F2A43', zIndex: 201, display: 'flex', flexDirection: 'column', boxShadow: '-10px 0 50px rgba(0,0,0,0.5)'}}>
+            <div style={{padding: '24px', borderBottom: '1px solid #1E3E62', display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+              <h2 style={{margin: 0, display: 'flex', alignItems: 'center', gap: '12px', fontSize: '1.4rem', fontWeight: '800', color: 'white'}}>
                 <ShoppingCart size={24} /> კალათა
               </h2>
-              <button 
-                onClick={() => setIsCartOpen(false)} 
-                style={{background: 'none', border: 'none', color: '#9CA3AF', cursor: 'pointer', padding: '5px'}}
-              >
-                <X size={24} />
-              </button>
+              <button onClick={() => setIsCartOpen(false)} style={{background: 'none', border: 'none', color: '#9CA3AF', cursor: 'pointer'}}><X size={24} /></button>
             </div>
-
-            <div style={styles.cartList}>
+            <div style={{padding: '20px', flex: 1, overflowY: 'auto'}}>
               {cart.length === 0 ? (
                 <div style={{textAlign: 'center', marginTop: '100px', color: '#9CA3AF'}}>
                   <Package size={60} style={{marginBottom: '15px', opacity: 0.5}} />
-                  <p style={{fontSize: '1.1rem'}}>კალათა ცარიელია</p>
+                  <p>კალათა ცარიელია</p>
                 </div>
               ) : (
                 cart.map(item => (
-                  <div key={item.id} style={styles.cartItem}>
-                    <img src={item.image} alt={item.name} style={styles.cartItemImg} loading="lazy" />
+                  <div key={item.id} style={{display: 'flex', gap: '16px', backgroundColor: '#153450', padding: '12px', borderRadius: '12px', marginBottom: '16px', border: '1px solid #1E3E62'}}>
+                    <img src={item.image} alt={item.name} style={{width: '70px', height: '70px', borderRadius: '8px', objectFit: 'cover'}} />
                     <div style={{flex: 1}}>
-                      <div style={{fontSize: '14px', fontWeight: '600', marginBottom: '4px', color: 'white'}}>{item.name}</div>
-                      <div style={{color: '#2F80ED', fontWeight: '800', fontSize: '1.1rem'}}>₾{item.price}</div>
-                      <div style={{display: 'flex', alignItems: 'center', gap: '15px', marginTop: '12px'}}>
-                        <div style={{display: 'flex', alignItems: 'center', gap: '10px', backgroundColor: '#0F2A43', padding: '4px 12px', borderRadius: '8px', border: '1px solid #1E3E62'}}>
-                          <Minus size={14} onClick={() => updateQuantity(item.id, -1)} style={{cursor: 'pointer'}} />
-                          <span style={{fontWeight: '700', fontSize: '14px', minWidth: '15px', textAlign: 'center'}}>{item.quantity}</span>
-                          <Plus size={14} onClick={() => updateQuantity(item.id, 1)} style={{cursor: 'pointer'}} />
-                        </div>
-                        <button 
-                          onClick={() => removeFromCart(item.id)}
-                          style={{background: 'none', border: 'none', color: '#EF4444', cursor: 'pointer', marginLeft: 'auto', padding: '5px'}}
-                        >
-                          <Trash2 size={18} />
-                        </button>
+                      <div style={{fontSize: '14px', fontWeight: '600', color: 'white'}}>{item.name}</div>
+                      <div style={{color: '#2F80ED', fontWeight: '800'}}>₾{item.price}</div>
+                      <div style={{display: 'flex', alignItems: 'center', gap: '10px', marginTop: '8px'}}>
+                        <button style={{background: 'none', border: 'none', color: 'white', cursor: 'pointer'}} onClick={() => updateQuantity(item.id, -1)}><Minus size={14} /></button>
+                        <span style={{color: 'white'}}>{item.quantity}</span>
+                        <button style={{background: 'none', border: 'none', color: 'white', cursor: 'pointer'}} onClick={() => updateQuantity(item.id, 1)}><Plus size={14} /></button>
+                        <Trash2 size={16} onClick={() => removeFromCart(item.id)} style={{cursor: 'pointer', color: '#EF4444', marginLeft: 'auto'}} />
                       </div>
                     </div>
                   </div>
                 ))
               )}
             </div>
-
             {cart.length > 0 && (
-              <div style={styles.checkoutFooter}>
-                <div style={{display: 'flex', justifyContent: 'space-between', marginBottom: '20px', alignItems: 'center'}}>
-                  <span style={{color: '#9CA3AF', fontSize: '0.9rem', fontWeight: '600'}}>ჯამური თანხა:</span>
-                  <span style={{fontSize: '1.8rem', fontWeight: '900', color: 'white'}}>₾{cartTotal}</span>
-                </div>
-                <button 
-                  style={{...styles.buyBtn, padding: '16px', fontSize: '1rem'}} 
-                  onClick={() => {setIsCartOpen(false); setView('checkout');}}
-                >
-                  გაფორმება
-                </button>
+              <div style={{padding: '24px', borderTop: '1px solid #1E3E62'}}>
+                <div style={{display: 'flex', justifyContent: 'space-between', marginBottom: '20px'}}><span style={{color: '#9CA3AF'}}>სულ:</span><span style={{fontSize: '1.5rem', fontWeight: '900', color: 'white'}}>₾{cartTotal}</span></div>
+                <button onClick={() => {setIsCartOpen(false); setView('checkout');}} style={{width: '100%', backgroundColor: '#2F80ED', color: 'white', border: 'none', borderRadius: '10px', padding: '16px', fontWeight: '700', cursor: 'pointer'}}>გაფორმება</button>
               </div>
             )}
           </div>
         </>
       )}
 
+      {/* Checkout Section */}
       {view === 'checkout' && (
         <div style={{maxWidth: '500px', margin: '40px auto', padding: '0 20px'}}>
-          <div style={{backgroundColor: '#153450', padding: '35px', borderRadius: '24px', border: '1px solid #1E3E62', boxShadow: '0 20px 40px rgba(0,0,0,0.4)'}}>
-            <h2 style={{fontSize: '24px', fontWeight: '800', marginBottom: '24px', color: 'white'}}>შეკვეთის გაფორმება</h2>
-            <form onSubmit={handleCheckout}>
-              <div style={{display: 'flex', gap: '12px'}}>
-                <input name="first_name" required placeholder="სახელი" style={styles.inputField} />
-                <input name="last_name" required placeholder="გვარი" style={styles.inputField} />
-              </div>
-              <input name="phone" required placeholder="ტელეფონი" style={styles.inputField} />
-              <textarea 
-                placeholder="მისამართი (ქალაქი, ქუჩა, ბინა...)" 
-                style={{...styles.inputField, height: '110px', resize: 'none'}}
-                value={deliveryAddress}
-                onChange={(e) => setDeliveryAddress(e.target.value)}
-                required
-              />
-              <button 
-                type="submit" 
-                disabled={isSubmitting}
-                style={{...styles.buyBtn, padding: '16px', fontSize: '1.1rem'}}
-              >
-                {isSubmitting ? 'იგზავნება...' : `დადასტურება (₾${cartTotal})`}
-              </button>
-              <button 
-                type="button" 
-                onClick={() => setView('home')}
-                style={{width: '100%', background: 'none', border: 'none', color: '#9CA3AF', marginTop: '16px', cursor: 'pointer', fontWeight: '600', fontSize: '0.9rem'}}
-              >
-                უკან დაბრუნება
-              </button>
-            </form>
-          </div>
+            <div style={{backgroundColor: '#153450', padding: '35px', borderRadius: '24px', border: '1px solid #1E3E62'}}>
+                <h2 style={{fontSize: '24px', fontWeight: '800', marginBottom: '24px', color: 'white'}}>შეკვეთის გაფორმება</h2>
+                <form onSubmit={handleCheckout}>
+                    <input name="first_name" required placeholder="სახელი" style={styles.input} />
+                    <input name="phone" required placeholder="ტელეფონი" style={styles.input} />
+                    <textarea placeholder="მისამართი" style={{...styles.input, height: '100px'}} onChange={(e) => setDeliveryAddress(e.target.value)} required />
+                    <button type="submit" disabled={isSubmitting} style={{width: '100%', backgroundColor: '#2F80ED', color: 'white', border: 'none', borderRadius: '10px', padding: '16px', fontWeight: '700', cursor: 'pointer'}}>
+                        {isSubmitting ? 'იგზავნება...' : `დადასტურება (₾${cartTotal})`}
+                    </button>
+                </form>
+            </div>
         </div>
       )}
 
+      {/* Success Section */}
       {view === 'success' && (
-        <div style={{textAlign: 'center', padding: '100px 20px', maxWidth: '600px', margin: '0 auto'}}>
-          <div style={{width: '90px', height: '90px', backgroundColor: 'rgba(34,197,94,0.15)', color: '#22C55E', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 24px'}}>
-            <CheckCircle size={54} />
-          </div>
-          <h2 style={{fontSize: '2.2rem', fontWeight: '900', color: 'white', marginBottom: '12px'}}>შეკვეთა მიღებულია!</h2>
-          <p style={{color: '#9CA3AF', marginBottom: '40px', fontSize: '1.1rem'}}>ჩვენი ოპერატორი მალე დაგიკავშირდებათ დეტალების დასაზუსტებლად.</p>
-          <button style={{...styles.buyBtn, width: '240px', margin: '0 auto', fontSize: '1rem', padding: '15px'}} onClick={() => setView('home')}>
-            მთავარზე დაბრუნება
-          </button>
+        <div style={{textAlign: 'center', padding: '100px 20px'}}>
+          <CheckCircle size={80} color="#22C55E" style={{margin: '0 auto 20px'}} />
+          <h2 style={{fontSize: '2rem', color: 'white'}}>შეკვეთა წარმატებულია!</h2>
+          <button style={{marginTop: '30px', background: '#2F80ED', color: 'white', padding: '12px 30px', borderRadius: '10px', border: 'none', cursor: 'pointer'}} onClick={() => setView('home')}>მთავარზე დაბრუნება</button>
         </div>
       )}
+
+      {/* Hidden Trigger Footer */}
+      <footer style={styles.footer}>
+        <p style={styles.footerText} onClick={handleFooterClick}>
+          © 2026 All rights reserved
+        </p>
+      </footer>
+
     </div>
   );
 }
